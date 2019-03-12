@@ -1,14 +1,10 @@
 import * as dotenv from 'dotenv';
 import 'reflect-metadata';
 import { Container } from 'typedi';
-import { createConnection, Repository, useContainer as ormUseContainer } from 'typeorm';
+import { createConnection, useContainer as ormUseContainer } from 'typeorm';
 import { createKoaServer, useContainer as routingUseContainer } from 'routing-controllers';
-import * as cron from 'node-cron';
 
-import { scrapePage } from './crons/scrapePage';
-import { Content } from './entities/Content';
-import { Categories } from './entities/Categories';
-import { InjectRepository } from 'typeorm-typedi-extensions';
+const cors = require('@koa/cors');
 
 dotenv.load();
 
@@ -28,6 +24,7 @@ routingUseContainer(Container);
     });
 
     app.listen(process.env.PORT, () => console.log(`Server running on localhost:${process.env.PORT}`));
+    app.use(cors());
 
     // cron.schedule('* * * * *', async () => {
     //   const cron = new scrapePage();

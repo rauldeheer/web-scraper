@@ -15,6 +15,9 @@ export class Categories {
   @Column()
   public category!: string;
 
+  @Column({ type: 'integer' })
+  public wpId!: number;
+
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;
 
