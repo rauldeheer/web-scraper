@@ -8,4 +8,4 @@ type Props = {
   name: string
 };
 
-export const Category = ({ uid, name }: Props) => <li className="category-item"><Link to={`/category/${uid}`}>{name}</Link></li>;
+export const Category = ({ uid, name }: Props) => <li className="category-item"><Link to={`/gallery/${uid}`}>{name}</Link></li>;

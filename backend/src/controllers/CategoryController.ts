@@ -32,7 +32,7 @@ export class CategoryController {
       return { success: false, error: 'Something went wrong while getting the category with content' };
     }
 
-    return { success: true, category: category };
+    return { success: true, content: category.content };
   }
 
   @Get('/categories/content')

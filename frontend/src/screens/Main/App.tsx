@@ -9,7 +9,7 @@ export const App = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" render={props => <Home {...props}/>}/>
-        <Route exact path="/gallery" render={props => <Gallery/>}/>
+        <Route exact path="/gallery/:gallery?" render={props => <Gallery {...props}/>}/>
       </Switch>
     </BrowserRouter>
   );

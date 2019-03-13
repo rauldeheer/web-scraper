@@ -1,12 +1,13 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Col, Container, Row, Spinner } from 'reactstrap';
 import { useAsyncEffect } from 'use-async-effect';
 
 import { Header } from '../../components/Header/Header';
 import { Category } from '../../components/Category/Category';
+import { ContentBox } from '../../components/ContentBox/ContentBox';
 
 import './Gallery.scss';
-import { ContentBox } from '../../components/ContentBox/ContentBox';
 
 type Category = {
   success: boolean,
@@ -39,28 +40,40 @@ type ContentArray = {
   categories: Categories
 }[];
 
-export const Gallery: FunctionComponent<{ initialCategory?: Categories, initialContent?: ContentArray }> = ({ initialCategory = [], initialContent = [] }) => {
-  const [categories, setCategories] = useState(initialCategory);
-  const [content, setContent] = useState(initialContent);
+export const Gallery = ({ match }: RouteComponentProps<{ gallery: string }>) => {
+  const [categories, setCategories] = useState([] as Categories);
+  const [content, setContent] = useState([] as ContentArray);
+  const isInitialMount = useRef(true);
+
+  let contentData: Response;
 
   useAsyncEffect(async () => {
-    const categoryData: Response = await fetch('http://localhost:3001/api/categories');
-    const contentData: Response = await fetch('http://localhost:3001/api/content');
+    if (match.params.gallery) {
+      contentData = await fetch(`http://localhost:3001/api/categories/content/${match.params.gallery}`);
+    } else {
+      contentData = await fetch('http://localhost:3001/api/content');
+    }
+
+    let categoryData: Response;
+    let categoryJson: Category;
+
+    if (!match.params.gallery || isInitialMount) {
+      categoryData = await fetch('http://localhost:3001/api/categories');
+      categoryJson = await categoryData.json();
+
+      if (categoryJson.success) {
+        setCategories(categoryJson.categories);
+      }
+    }
 
     const contentJson: Content = await contentData.json();
-    const categoryJson: Category = await categoryData.json();
-
-    if (categoryJson.success) {
-      setCategories(categoryJson.categories);
-    }
 
     if (contentJson.success) {
       setContent(contentJson.content);
     }
   }, () => {
-    setCategories([]);
     setContent([]);
-  }, []);
+  }, [match.params.gallery]);
 
   return (
     <>

@@ -3,6 +3,8 @@ import * as striptags from 'striptags';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import fetch from 'node-fetch';
+// @ts-ignore
+import * as download from 'image-downloader';
 
 import { Categories } from '../entities/Categories';
 import { Content } from '../entities/Content';
@@ -114,6 +116,23 @@ type Post = {
   }
 }[];
 
+type Media = {
+  media_details: {
+    width: number,
+    height: number,
+    file: string,
+    sizes: {
+      full: {
+        file: string,
+        width: number,
+        height: number,
+        mime_type: string,
+        source_url: string
+      }
+    }
+  }
+}[];
+
 @Controller()
 export class NewScrapeController {
   @InjectRepository(Content)
@@ -148,11 +167,11 @@ export class NewScrapeController {
       const categories = await this.categoryRepository.find();
 
       try {
-        const data = categories.map(async (category, index) => {
+        categories.map(async (category, index) => {
           const postRequest = await fetch(`${this.apiUrl}posts?categories=${category.wpId}&per_page=100&page=1`);
           const postData: Post = await postRequest.json();
 
-          console.log(`${this.apiUrl}posts?categories=${category.wpId}&per_page=100&page=1`);
+          console.log(`Scraping: ${this.apiUrl}posts?categories=${category.wpId}&per_page=100&page=1`);
 
           // @ts-ignore
           if(!postData || typeof postData.data !== 'undefined') {
@@ -166,7 +185,7 @@ export class NewScrapeController {
               post.categories.map(async (category) => {
                 try {
                   const currentCategory = await this.categoryRepository.findOne({
-                    where: { wpId: category }
+                    wpId: category
                   });
 
                   if(currentCategory) {
@@ -177,18 +196,23 @@ export class NewScrapeController {
                 }
               });
 
+              const imageRequest = await fetch(post._links['wp:attachment'][0].href);
+              const imageData: Media = await imageRequest.json();
+
               const searchPost = await this.contentRepository.findOne({
-                title: post.title.rendered,
+                title: striptags(post.title.rendered),
                 description: striptags(post.content.rendered),
-                url: '',
+                url: striptags(''),
               });
 
               if(!searchPost) {
+                const description = striptags(post.content.rendered).split('Like');
+
                 const newContent = await this.contentRepository.create({
-                  title: post.title.rendered,
-                  description: striptags(post.content.rendered),
-                  image: '',
-                  url: '',
+                  title: striptags(post.title.rendered),
+                  description: description[0].length > 0 ? description[0] : 'Geen omschrijving beschikbaar',
+                  image: imageData[0].media_details.sizes.full.source_url.toString(),
+                  url: striptags(''),
                   date: post.modified,
                   categories: categoryArray
                 });
@@ -201,7 +225,7 @@ export class NewScrapeController {
           })
         });
 
-        return { success: true, message: 'All items have been scraped!', data: data };
+        return { success: true, message: 'All items have been scraped!' };
       } catch (e) {
         return { success: false, error: e };
       }
