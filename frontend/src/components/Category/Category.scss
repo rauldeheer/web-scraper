@@ -1,0 +1,26 @@
+.category-item {
+  position: relative;
+  display: inline-block;
+  list-style: none;
+
+  a {
+    color: #222;
+    font-weight: 500;
+    padding: 10px 15px;
+    height: 40px;
+    display: block;
+    margin: 5px 5px 5px 0;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 2px 0 0 #DDDDDD, 0 1px 4px 2px rgba(0, 0, 0, 0.02);
+    border-radius: 5px;
+
+    &:hover {
+      color: #ff4470;
+    }
+
+    &:active {
+      color: #ff4470;
+    }
+  }
+}
