@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Col, Container, Row, Spinner } from 'reactstrap';
 import { useAsyncEffect } from 'use-async-effect';
@@ -15,20 +15,20 @@ type Category = {
   categories: Categories
 };
 
-type Categories = {
+type Categories = Array<{
   id: string,
   category: string,
   createdAt: string,
   updatedAt: string
-}[];
+}>;
 
 type Content = {
   success: boolean,
   total: number,
-  content: ContentArray
+  content: Contents
 };
 
-type ContentArray = {
+type Contents = Array<{
   id: string,
   title: string,
   date: string,
@@ -38,42 +38,38 @@ type ContentArray = {
   createdAt: string,
   updatedAt: string,
   categories: Categories
-}[];
+}>;
 
-export const Gallery = ({ match }: RouteComponentProps<{ gallery: string }>) => {
-  const [categories, setCategories] = useState([] as Categories);
-  const [content, setContent] = useState([] as ContentArray);
-  const isInitialMount = useRef(true);
-
-  let contentData: Response;
+export const Gallery = ({ match: { params: { gallery } } }: RouteComponentProps<{ gallery: string }>) => {
+  const [categories, setCategories] = useState<Categories>([]);
+  const [content, setContent] = useState<Contents>([]);
+  const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favorites') || '[]'));
 
   useAsyncEffect(async () => {
-    if (match.params.gallery) {
-      contentData = await fetch(`http://localhost:3001/api/categories/content/${match.params.gallery}`);
-    } else {
-      contentData = await fetch('http://localhost:3001/api/content');
-    }
+      const response = await fetch(gallery ? `http://localhost:3001/api/categories/content/${gallery}` : 'http://localhost:3001/api/content');
 
-    let categoryData: Response;
-    let categoryJson: Category;
+      if (!gallery) {
+        const categoryData = await fetch('http://localhost:3001/api/categories');
+        const categoryJson = await categoryData.json();
 
-    if (!match.params.gallery || isInitialMount) {
-      categoryData = await fetch('http://localhost:3001/api/categories');
-      categoryJson = await categoryData.json();
-
-      if (categoryJson.success) {
-        setCategories(categoryJson.categories);
+        if (categoryJson.success) {
+          setCategories(categoryJson.categories);
+        }
       }
-    }
 
-    const contentJson: Content = await contentData.json();
+      const contentJson = await response.json() as Content;
 
-    if (contentJson.success) {
-      setContent(contentJson.content);
-    }
-  }, () => {
-    setContent([]);
-  }, [match.params.gallery]);
+      if (contentJson.success) {
+        setContent(contentJson.content);
+      }
+    },
+    () => setContent([]),
+    [gallery]
+  );
+
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <>
@@ -97,29 +93,34 @@ export const Gallery = ({ match }: RouteComponentProps<{ gallery: string }>) => 
                 <Col sm={12}>
                   <ul className="category-list">
                     {categories.map((data, index) => (
-                      <Category key={index} name={data.category} uid={data.id}/>
+                      <Category
+                        key={data.id}
+                        uid={data.id}
+                        name={data.category}
+                        favorite={favorites.indexOf(data.id) !== -1}
+                        setFavorite={(favorite, uid) => setFavorites(!favorite ? favorites.filter((id: string) => id !== uid) : [
+                          ...favorites,
+                          uid
+                        ])}
+                      />
                     ))}
                   </ul>
                 </Col>
               </Row>
               <div className="content">
                 <Row>
-                  {content.map((data, index) => {
-                    const alt = data.title.toLowerCase();
-
-                    return (
-                      <ContentBox
-                        key={index}
-                        uid={data.id}
-                        image={data.image}
-                        imageAlt={alt}
-                        title={data.title}
-                        date={data.date}
-                        url={data.url}
-                        description={data.description}
-                      />
-                    );
-                  })}
+                  {content.map((data, index) => (
+                    <ContentBox
+                      key={index}
+                      uid={data.id}
+                      image={data.image}
+                      imageAlt={data.title.toLowerCase()}
+                      title={data.title}
+                      date={data.date}
+                      url={data.url}
+                      description={data.description}
+                    />
+                  ))}
                 </Row>
               </div>
             </>
