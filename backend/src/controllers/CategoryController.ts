@@ -15,11 +15,19 @@ export class CategoryController {
 
   @Get('/categories')
   public async getAll() {
-    const categories = await this.categoryRepository.findAndCount();
+    const categories = await this.categoryRepository.findAndCount({
+      relations: ['content']
+    });
 
     if (!categories) {
       return { success: false, error: 'Something went wrong while getting the categories' };
     }
+
+    categories[0].map((category, index) => {
+      if (category.content.length === 0) {
+        categories[0].splice(index, 1);
+      }
+    });
 
     return { success: true, total: categories[1], categories: categories[0] }
   }

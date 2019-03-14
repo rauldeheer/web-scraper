@@ -24,7 +24,7 @@ export const ContentBox = ({ uid, image, imageAlt, title, date, description }: P
       <div className="description">
         <Title text={title}/>
         <div className="date">
-          <p><FontAwesomeIcon icon={faClock}/>{date}</p>
+          <p><FontAwesomeIcon icon={faClock}/> {new Date(date).toLocaleDateString()}</p>
         </div>
         <div className="subtitle">
           <p>{description}</p>
