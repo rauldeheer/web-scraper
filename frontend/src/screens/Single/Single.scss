@@ -10,14 +10,23 @@
   display: block;
   margin: 0 0 20px 0;
 
+
   span {
+    display: inline;
+    font-size: 75%;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+
     &:hover {
       margin-top: 10px;
     }
   }
 }
 
-.dark-btn {
+.btn-dark {
   i {
     &:hover {
       margin-right: 5px;
@@ -28,6 +37,13 @@
 
 .label {
   padding: .4em .8em .5em;
+  display: inline;
+    font-size: 75%;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
 }
 
 .label-button {

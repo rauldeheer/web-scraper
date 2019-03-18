@@ -20,10 +20,19 @@ a.wrapper {
 .description {
   position: relative;
   padding: 20px;
+
+  .date {
+    p {
+      font-size: 12px;
+      font-weight: 600;
+      color: #696969;
+    }
+  }
 }
 
 .sub p {
-  font-size: 14px;
-  font-weight: 400;
-  color: #696969;
+    font-size: 14px;
+    font-weight: 400;
+    color: #696969;
+    padding: 10px 0;
 }

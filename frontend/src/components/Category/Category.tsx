@@ -14,13 +14,13 @@ type Props = {
 
 export const Category = ({ uid, name, favorite, setFavorite }: Props) => {
   return (
-    <>
-      <li className="category-item">
+    <div className="category-item">
+      <li className="category-list-item">
         <Link to={`/gallery/${uid}`}>{name}</Link>
       </li>
       <button onClick={() => setFavorite(!favorite, uid)}>
-        <FontAwesomeIcon icon={faHeart} color={favorite ? 'red' : 'black'}/>
+        <FontAwesomeIcon icon={faHeart} color={favorite ? 'red' : 'lightgray'}/>
       </button>
-    </>
+    </div>
   )
 };
