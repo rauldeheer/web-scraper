@@ -23,11 +23,11 @@ export class CategoryController {
       return { success: false, error: 'Something went wrong while getting the categories' };
     }
 
-    categories[0].map((category, index) => {
-      if (category.content.length === 0) {
-        categories[0].splice(index, 1);
-      }
-    });
+    // categories[0].map((category, index) => {
+    //   if (category.content.length === 0) {
+    //     categories[0].splice(index, 1);
+    //   }
+    // });
 
     return { success: true, total: categories[1], categories: categories[0] }
   }
@@ -40,7 +40,10 @@ export class CategoryController {
       return { success: false, error: 'Something went wrong while getting the category with content' };
     }
 
-    return { success: true, content: category.content };
+    // @ts-ignore
+    const sortedCategory = category.content.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return { success: true, content: sortedCategory };
   }
 
   @Get('/categories/content')

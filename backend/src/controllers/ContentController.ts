@@ -17,7 +17,10 @@ export class ContentController {
       return { success: false, error: 'Something went wrong while getting the content' };
     }
 
-    return { success: true, total: content[1], content: content[0] };
+    // @ts-ignore
+    const sortedContent = content[0].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return { success: true, total: content[1], content: sortedContent };
   }
 
   @Get('/content/:uuid')

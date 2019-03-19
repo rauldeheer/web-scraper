@@ -112,7 +112,7 @@ export const Single = ({ match: { params: { content } } }: RouteComponentProps<{
               </Row>
             </>
           ) : (
-            <Col>
+            <Col sm={12} md={{ size: 3, offset: 5 }}>
               <Spinner color="primary"/>
             </Col>
           )}
