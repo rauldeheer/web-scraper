@@ -19,7 +19,8 @@ type Content = {
   updatedAt: string,
   url: string,
   categories: [{
-    category: string
+    category: string,
+    id: string
   }]
 };
 
@@ -28,8 +29,8 @@ export const Single = ({ match: { params: { content } } }: RouteComponentProps<{
   const [randomData, setRandomData] = useState<Content[]>();
 
   useAsyncEffect(async () => {
-    const response = await fetch(`http://localhost:3001/api/content/${content}`);
-    const randomResponse = await fetch('http://localhost:3001/api/content/random');
+    const response = await fetch(`http://62.75.171.162/api/content/${content}`);
+    const randomResponse = await fetch('http://62.75.171.162/api/content/random');
     const data = await response.json();
     const randomData = await randomResponse.json();
 
@@ -76,21 +77,15 @@ export const Single = ({ match: { params: { content } } }: RouteComponentProps<{
                     <div className="landingpage-date">
                       <p><FontAwesomeIcon icon={faClock}/> {new Date(contentData.date).toLocaleDateString()}</p>
                     </div>
-                    <div className="landingpage-link">
-                      <Link to={contentData.url} className="dark-btn">
-                        <span className="label label-button">
-                        <FontAwesomeIcon icon={faDesktop}/>
-                          Live voorbeeld
-                        </span>
-                      </Link>
-                    </div>
                   </div>
                   <div className="info-wrapper">
                     <h2 className="detail-element-title">Landingspagina info</h2>
                     <span className="color-title">Categorieën</span>
                     <div className="detail-categorie-wrapper">
                       {contentData.categories.map((category, index) => (
-                        <span className="label label-default" key={index}>{category.category.charAt(0).toUpperCase() + category.category.slice(1)}</span>
+                          <Link to={`/gallery/${category.id}`} key={index}>
+                            <span className="label label-default">{category.category.charAt(0).toUpperCase() + category.category.slice(1)}</span>
+                          </Link>
                       ))}
                     </div>
                   </div>

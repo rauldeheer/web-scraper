@@ -9,12 +9,13 @@ type Props = {
   uid: string,
   name: string,
   favorite: boolean,
-  setFavorite: (favorite: boolean, uid: string) => void
+  setFavorite: (favorite: boolean, uid: string) => void,
+  isActive: boolean
 };
 
-export const Category = ({ uid, name, favorite, setFavorite }: Props) => {
+export const Category = ({ uid, name, favorite, setFavorite, isActive }: Props) => {
   return (
-    <div className="category-item">
+    <div className="category-item" style={{ backgroundColor: isActive ? '#ff4470' : '' }}>
       <li className="category-list-item">
         <Link to={`/gallery/${uid}`}>{name}</Link>
       </li>

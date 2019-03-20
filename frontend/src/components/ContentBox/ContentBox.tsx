@@ -7,6 +7,8 @@ import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { BannerImage } from '../BannerImage/BannerImage';
 import { Title } from '../Title/Title';
 
+import './ContentBox.scss';
+
 type Props = {
   uid: string,
   image: string,
@@ -26,7 +28,7 @@ export const ContentBox = ({ uid, image, imageAlt, title, date, description }: P
         <div className="date">
           <p><FontAwesomeIcon icon={faClock}/> {new Date(date).toLocaleDateString()}</p>
         </div>
-        <div className="subtitle">
+        <div className="subtitleContent">
           <p>{description}</p>
         </div>
       </div>

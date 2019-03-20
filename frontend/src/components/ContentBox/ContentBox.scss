@@ -26,9 +26,18 @@
   }
 }
 
-.subtitle {
+.subtitleContent {
   font-size: 14px;
   font-weight: 400;
   color: #696969;
   padding: 10px 0;
+  height: 6em;
+  word-break: break-word;
+  overflow: hidden;
+
+  p {
+    width: 100%;
+    position: relative;
+    line-height: 1.4em;
+  }
 }

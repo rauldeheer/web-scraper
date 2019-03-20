@@ -41,22 +41,20 @@ type Contents = Array<{
   categories: Categories
 }>;
 
-export const Gallery = ({ match: { params: { gallery } } }: RouteComponentProps<{ gallery: string }>) => {
+export const Gallery = ({ match: { params: { gallery } }}: RouteComponentProps<{ gallery: string }>) => {
   const [categories, setCategories] = useState<Categories>([]);
   const [content, setContent] = useState<Contents>([]);
   const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favorites') || '[]'));
   const [showItems, setShowItems] = useState<number>(9);
 
   useAsyncEffect(async () => {
-      const response = await fetch(gallery ? `http://localhost:3001/api/categories/content/${gallery}` : 'http://localhost:3001/api/content');
+      const response = await fetch(gallery ? `http://62.75.171.162/api/categories/content/${gallery}` : 'http://62.75.171.162/api/content');
 
-      if (!gallery) {
-        const categoryData = await fetch('http://localhost:3001/api/categories');
-        const categoryJson = await categoryData.json();
+      const categoryData = await fetch('http://62.75.171.162/api/categories');
+      const categoryJson = await categoryData.json();
 
-        if (categoryJson.success) {
-          setCategories(categoryJson.categories);
-        }
+      if (categoryJson.success) {
+        setCategories(categoryJson.categories);
       }
 
       const contentJson = await response.json() as Content;
@@ -65,7 +63,9 @@ export const Gallery = ({ match: { params: { gallery } } }: RouteComponentProps<
         setContent(contentJson.content);
       }
     },
-    () => setContent([]),
+    () => {
+      setContent([]);
+    },
     [gallery]
   );
 
@@ -109,6 +109,7 @@ export const Gallery = ({ match: { params: { gallery } } }: RouteComponentProps<
                           ...favorites,
                           uid
                         ])}
+                        isActive={gallery === data.id}
                       />
                     ))}
                   </ul>
