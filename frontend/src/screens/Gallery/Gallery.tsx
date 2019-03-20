@@ -1,15 +1,7 @@
-<<<<<<< Updated upstream
-import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
-import { Col, Container, Row, Spinner } from 'reactstrap';
-import { useAsyncEffect } from 'use-async-effect';
-=======
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { Col, Container, Row, Spinner } from "reactstrap";
 import { useAsyncEffect } from "use-async-effect";
->>>>>>> Stashed changes
 
 import { Header } from "../../components/Header/Header";
 import { Category } from "../../components/Category/Category";
@@ -55,14 +47,9 @@ export const Gallery = ({
 }: RouteComponentProps<{ gallery: string }>) => {
   const [categories, setCategories] = useState<Categories>([]);
   const [content, setContent] = useState<Contents>([]);
-<<<<<<< Updated upstream
-  const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favorites') || '[]'));
-  const [showItems, setShowItems] = useState<number>(9);
-=======
   const [favorites, setFavorites] = useState<string[]>(
     JSON.parse(localStorage.getItem("favorites") || "[]")
   );
->>>>>>> Stashed changes
 
   useAsyncEffect(
     async () => {
@@ -112,13 +99,8 @@ export const Gallery = ({
             </Col>
           </Row>
           {!categories || !content ? (
-<<<<<<< Updated upstream
-            <Col sm={12} md={{ size: 3, offset: 5 }}>
-              <Spinner color="primary"/>
-=======
             <Col>
               <Spinner color="primary" />
->>>>>>> Stashed changes
             </Col>
           ) : (
             <>
@@ -167,14 +149,18 @@ export const Gallery = ({
                 {content.length > showItems && (
                   <Row>
                     <Col sm={12} md={{ size: 3, offset: 5 }}>
-                      <div onClick={() => {
-                        setShowItems(
-                          showItems >= content.length ? showItems : showItems + 6
-                        )
-                      }} className="category-item" style={{ width: '100%', textAlign: 'center' }}>
-                        <li className="category-list-item">
-                          Laad meer
-                        </li>
+                      <div
+                        onClick={() => {
+                          setShowItems(
+                            showItems >= content.length
+                              ? showItems
+                              : showItems + 6
+                          );
+                        }}
+                        className="category-item"
+                        style={{ width: "100%", textAlign: "center" }}
+                      >
+                        <li className="category-list-item">Laad meer</li>
                       </div>
                     </Col>
                   </Row>
