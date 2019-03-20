@@ -14,6 +14,16 @@
   font-size: 14px;
   color: #696969;
   margin: 20px 0 30px;
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 16px; /* fallback */
+    max-height: 32px; /* fallback */
+    -webkit-line-clamp: 4; /* number of lines to show */
+    -webkit-box-orient: vertical;
+  }
 }
 
 .category-list {

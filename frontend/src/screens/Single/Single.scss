@@ -10,7 +10,6 @@
   display: block;
   margin: 0 0 20px 0;
 
-
   span {
     display: inline;
     font-size: 75%;
@@ -18,7 +17,7 @@
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: .25em;
+    border-radius: 0.25em;
 
     &:hover {
       margin-top: 10px;
@@ -36,14 +35,14 @@
 }
 
 .label {
-  padding: .4em .8em .5em;
+  padding: 0.4em 0.8em 0.5em;
   display: inline;
-    font-size: 75%;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25em;
+  font-size: 75%;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25em;
 }
 
 .label-button {
@@ -51,7 +50,7 @@
   color: #ffffff;
   border: 1px solid #000000;
   font-weight: 300;
-  padding: .8em 1.4em .9em;
+  padding: 0.8em 1.4em 0.9em;
 }
 
 .banner-img-wrapper {
@@ -125,15 +124,17 @@
 }
 
 .detail-categorie-wrapper {
-  position: relative;
+  position: absolute;
   display: block;
   margin: 20px 0 0;
+  bottom: 20px;
 }
 
 .label-default {
   background-color: #ffffff;
   color: #ff4470;
   border: 1px solid #ff4470;
+  margin: 0 5px 0 0;
 }
 
 .referals-wrapper {
@@ -145,7 +146,7 @@
     margin-right: -5px;
   }
 
-  .col-xs-6 {
+  .col-6 {
     padding-left: 5px;
     padding-right: 5px;
   }
@@ -167,6 +168,19 @@
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
   -webkit-border-radius: 5px;
   border-radius: 5px;
+
+  &:hover {
+    -moz-transform: translateX(0px) translateY(-3px);
+    -webkit-transform: translateX(0px) translateY(-3px);
+    -o-transform: translateX(0px) translateY(-3px);
+    -ms-transform: translateX(0px) translateY(-3px);
+    transform: translateX(0px) translateY(-3px);
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+  }
 
   img {
     position: relative;
