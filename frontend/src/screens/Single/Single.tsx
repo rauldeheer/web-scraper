@@ -77,6 +77,11 @@ export const Single = ({ match: { params: { content } } }: RouteComponentProps<{
                     <div className="landingpage-date">
                       <p><FontAwesomeIcon icon={faClock}/> {new Date(contentData.date).toLocaleDateString()}</p>
                     </div>
+                    <div className="landingpage-link">
+                      <a className="btn-dark" href="https://adpage.io" target="_blank">
+                        <span className="label label-button"><FontAwesomeIcon icon={faDesktop}/> Direct aan de slag</span>
+                      </a>
+                    </div>
                   </div>
                   <div className="info-wrapper">
                     <h2 className="detail-element-title">Landingspagina info</h2>

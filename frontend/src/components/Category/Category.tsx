@@ -17,7 +17,7 @@ export const Category = ({ uid, name, favorite, setFavorite, isActive }: Props) 
   return (
     <div className="category-item" style={{ backgroundColor: isActive ? '#ff4470' : '' }}>
       <li className="category-list-item">
-        <Link to={`/gallery/${uid}`}>{name}</Link>
+        <Link to={`/gallery/${uid}`}>{name.toString().charAt(0).toUpperCase() + name.toString().slice(1)}</Link>
       </li>
       <button onClick={() => setFavorite(!favorite, uid)}>
         <FontAwesomeIcon icon={faHeart} color={favorite ? 'red' : 'lightgray'}/>

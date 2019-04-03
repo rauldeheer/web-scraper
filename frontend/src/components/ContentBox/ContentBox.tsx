@@ -54,8 +54,8 @@ export const ContentBox = ({
           {categories &&
             categories.map((category, index) => (
               <span className="label label-default" key={index}>
-                {category.category.charAt(0).toUpperCase() +
-                  category.category.slice(1)}
+                {category.category.toString().charAt(0).toUpperCase() +
+                  category.category.toString().slice(1)}
               </span>
             ))}
         </div>

@@ -18,10 +18,12 @@ header {
 }
 
 .badge {
+  width: 20px;
+  height: 20px;
   margin: -10px 0 0 5px;
   display: inline-block;
   min-width: 10px;
-  padding: 3px 7px;
+  padding: 4px!important;
   font-size: 12px;
   font-weight: bold;
   line-height: 1;
@@ -30,7 +32,7 @@ header {
   white-space: nowrap;
   vertical-align: middle;
   background-color: #777;
-  border-radius: 10px;
+  border-radius: 50% !important;
 }
 
 .main-nav {

@@ -34,7 +34,7 @@ export class CategoryController {
 
   @Get('/categories/content/:uuid')
   public async getOne(@Param('uuid') uuid: string) {
-    const category = await this.categoryRepository.createQueryBuilder("category").leftJoinAndSelect("category.content", "content").andWhere("category.id = :uuid", { uuid: uuid }).getOne();
+    const category = await this.categoryRepository.createQueryBuilder("category").leftJoinAndSelect("category.content", "content").innerJoinAndSelect("content.categories", "categories").andWhere("category.id = :uuid", { uuid: uuid }).getOne();
 
     if (!category) {
       return { success: false, error: 'Something went wrong while getting the category with content' };
@@ -43,7 +43,7 @@ export class CategoryController {
     // @ts-ignore
     const sortedCategory = category.content.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    return { success: true, content: sortedCategory };
+    return { success: true, category: category.category, content: sortedCategory };
   }
 
   @Get('/categories/content')

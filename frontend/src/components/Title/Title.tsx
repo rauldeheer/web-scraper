@@ -10,6 +10,6 @@ type Props = {
 
 export const Title = ({ text, badge, badgeCount }: Props) => (
   <div className="title">
-    <p>{text} {badge && (<span className="badge">{badgeCount}</span>)}</p>
+    <p>{text} {badge && (<span className="titleBadge badge">{badgeCount}</span>)}</p>
   </div>
 );
